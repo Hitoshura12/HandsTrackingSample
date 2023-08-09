@@ -43,11 +43,9 @@ void ABoneCapsuleTriggerLogic::OnOverlapBegin(class UPrimitiveComponent* Overlap
 	{
 		return;
 	}
-	UColliderZone *ColliderZoneOverlapped = Cast<UColliderZone>(OtherComp);
+	UColliderZone* ColliderZoneOverlapped = Cast<UColliderZone>(OtherComp);
 
-	if (ColliderZoneOverlapped != nullptr &&
-		(ColliderZoneOverlapped->ParentInteractable->GetValidToolTagsMask() &
-		(int)ToolTags) != 0)
+	if (ColliderZoneOverlapped != nullptr && (ColliderZoneOverlapped->ParentInteractable->GetValidToolTagsMask() & (int)ToolTags) != 0)
 	{
 		CollidersTouching.Add(ColliderZoneOverlapped);
 	}
@@ -61,11 +59,9 @@ void ABoneCapsuleTriggerLogic::OnOverlapEnd(class UPrimitiveComponent* Overlappe
 	{
 		return;
 	}
-	UColliderZone *ColliderZoneOverlapped = Cast<UColliderZone>(OtherComp);
+	UColliderZone* ColliderZoneOverlapped = Cast<UColliderZone>(OtherComp);
 
-	if (ColliderZoneOverlapped != nullptr &&
-		(ColliderZoneOverlapped->ParentInteractable->GetValidToolTagsMask() &
-		(int)ToolTags) != 0)
+	if (ColliderZoneOverlapped != nullptr && (ColliderZoneOverlapped->ParentInteractable->GetValidToolTagsMask() & (int)ToolTags) != 0)
 	{
 		CollidersTouching.Remove(ColliderZoneOverlapped);
 	}

@@ -5,10 +5,10 @@ using System.Collections.Generic;
 
 public class HandsTrainSampleEditorTarget : TargetRules
 {
-	public HandsTrainSampleEditorTarget( TargetInfo Target) : base(Target)
+	public HandsTrainSampleEditorTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Editor;
 
-		ExtraModuleNames.AddRange( new string[] { "HandsTrainSample" } );
+		ExtraModuleNames.AddRange(new string[] { "HandsTrainSample" });
 	}
 }

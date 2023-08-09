@@ -55,7 +55,7 @@ FTransform ATrackSegment::GetEndPose() const
 }
 
 // note that start of segment's mesh starts at 0 for forward (X) in local space
-// 
+//
 void ATrackSegment::UpdatePoseInSegment(float DistanceIntoSegment, FTransform& Pose) const
 {
 	float CurrentRadius = ComputeRadius();
@@ -102,7 +102,7 @@ void ATrackSegment::UpdatePoseInSegment(float DistanceIntoSegment, FTransform& P
 void ATrackSegment::EnableMeshAndRegenerateTrack()
 {
 	for (unsigned int SegmentTypeIndex = (unsigned int)ESegmentType::Straight;
-		SegmentTypeIndex <= (unsigned int)ESegmentType::RightTurn; SegmentTypeIndex++)
+		 SegmentTypeIndex <= (unsigned int)ESegmentType::RightTurn; SegmentTypeIndex++)
 	{
 		ToggleStaticMesh(SegmentMeshes[SegmentTypeIndex],
 			SegmentTypeIndex == (unsigned int)TrackSegmentType);

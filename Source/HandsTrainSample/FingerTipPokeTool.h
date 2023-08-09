@@ -46,7 +46,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Tool Properties")
 	EHandFinger FingerToFollow;
 
-	virtual void Initialize_Implementation(UOculusXRHandComponent *HandComponent)
+	virtual void Initialize_Implementation(UOculusXRHandComponent* HandComponent)
 		override;
 
 	void SetVisualEnableState_Implementation(bool NewVisualEnableState) override;
@@ -56,10 +56,10 @@ public:
 	virtual EInteractableToolTags GetToolTags_Implementation() override;
 
 	void RefreshCurrentIntersectingObjects_Implementation() override;
-	
+
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	ABoneCapsuleTriggerLogic *TriggerLogic;
+	ABoneCapsuleTriggerLogic* TriggerLogic;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Tool Properties")
 	TArray<FOculusXRCapsuleCollider> CollisionCapsulesForBone;

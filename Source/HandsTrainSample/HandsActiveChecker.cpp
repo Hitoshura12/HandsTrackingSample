@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "HandsActiveChecker.h"
 #include "Components/StaticMeshComponent.h"
 #include "OculusXRInputFunctionLibrary.h"
@@ -33,8 +32,7 @@ void AHandsActiveChecker::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (!IsValid(PlayerPawn) || !IsValid(LeftMesh) ||
-		!IsValid(RightMesh))
+	if (!IsValid(PlayerPawn) || !IsValid(LeftMesh) || !IsValid(RightMesh))
 	{
 		return;
 	}
@@ -60,7 +58,7 @@ void AHandsActiveChecker::Tick(float DeltaTime)
 		{
 			NotificationMesh->SetVisibility(true);
 		}
-		
+
 		if (IsValid(LeftMesh) && !LeftMesh->IsVisible())
 		{
 			LeftMesh->SetVisibility(true);
@@ -72,8 +70,7 @@ void AHandsActiveChecker::Tick(float DeltaTime)
 
 		FRotator DeviceRotation;
 		FVector DevicePosition;
-		UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition
-			(DeviceRotation, DevicePosition);
+		UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(DeviceRotation, DevicePosition);
 		if (IsValid(PlayerPawn))
 		{
 			FTransform PlayerTransform = PlayerPawn->GetTransform();
@@ -86,7 +83,8 @@ void AHandsActiveChecker::Tick(float DeltaTime)
 			SetActorLocation(NotifPosition);
 			SetActorRotation(UKismetMathLibrary::MakeRotFromXZ(
 				-TransformedQuat.GetForwardVector(),
-				TransformedQuat.GetUpVector()).Quaternion());
+				TransformedQuat.GetUpVector())
+								 .Quaternion());
 		}
 	}
 }
@@ -95,10 +93,9 @@ void AHandsActiveChecker::FindPawnAndControllers()
 {
 	PlayerPawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 
-	if (IsValid(PlayerPawn) && 
-		(LeftMesh == nullptr || RightMesh == nullptr))
+	if (IsValid(PlayerPawn) && (LeftMesh == nullptr || RightMesh == nullptr))
 	{
-		LeftMesh = 
+		LeftMesh =
 			(UStaticMeshComponent*)PlayerPawn->GetDefaultSubobjectByName(
 				FName(TEXT("LeftControllerMesh")));
 		RightMesh =
@@ -106,4 +103,3 @@ void AHandsActiveChecker::FindPawnAndControllers()
 				FName(TEXT("RightControllerMesh")));
 	}
 }
-

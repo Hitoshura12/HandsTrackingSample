@@ -159,7 +159,7 @@ void ATrainTrack::InitializeSegmentReferences()
 {
 	// reset all references before setting them
 	TrackSegments.Empty();
-	
+
 	TArray<AActor*> AttachedActors;
 	GetAttachedActors(AttachedActors, true);
 	for (AActor* Actor : AttachedActors)
@@ -181,7 +181,7 @@ void ATrainTrack::InitializeTrain()
 
 	TArray<AActor*> ChildActors;
 	GetAllChildActors(ChildActors, true);
-	ATrainParent *TrainParentActor = nullptr;
+	ATrainParent* TrainParentActor = nullptr;
 
 	for (AActor* Actor : ChildActors)
 	{
@@ -256,8 +256,7 @@ ATrackSegment* ATrainTrack::GetTrackSegment(float DistanceIntoTrack)
 	{
 		auto CurrSegment = TrackSegments[SegmentIndex];
 		auto NextSegment = TrackSegments[(SegmentIndex + 1) % NumSegments];
-		if (DistanceIntoTrack >= CurrSegment->StartDistance &&
-			(DistanceIntoTrack < NextSegment->StartDistance || SegmentIndex == LastSegmentIndex))
+		if (DistanceIntoTrack >= CurrSegment->StartDistance && (DistanceIntoTrack < NextSegment->StartDistance || SegmentIndex == LastSegmentIndex))
 		{
 			return CurrSegment;
 		}

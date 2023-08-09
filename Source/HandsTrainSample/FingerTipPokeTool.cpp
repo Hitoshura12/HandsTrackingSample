@@ -1,4 +1,3 @@
-
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "FingerTipPokeTool.h"
@@ -39,17 +38,15 @@ void AFingerTipPokeTool::Tick(float DeltaTime)
 	}
 
 	auto CapsuleObject = CapsuleToTrack.Capsule;
-	auto HandType = IsRightHandedTool ?
-		EOculusXRHandType::HandRight : EOculusXRHandType::HandLeft;
+	auto HandType = IsRightHandedTool ? EOculusXRHandType::HandRight : EOculusXRHandType::HandLeft;
 	float CurrentHandScale = UOculusXRInputFunctionLibrary::GetHandScale(HandType);
 
 	const FTransform& CapsuleTransform = CapsuleObject->GetComponentTransform();
 	FQuat CapsuleRotation = CapsuleTransform.GetRotation();
 	FVector CapsuleDirection = CapsuleRotation.GetUpVector();
 	// first find position of capsule's tip
-	FVector CapsuleTipPosition = CapsuleObject->GetComponentLocation() +
-		CapsuleObject->GetScaledCapsuleHalfHeight() * CapsuleDirection;
-	// then push tool's center away from tip. the center should be 
+	FVector CapsuleTipPosition = CapsuleObject->GetComponentLocation() + CapsuleObject->GetScaledCapsuleHalfHeight() * CapsuleDirection;
+	// then push tool's center away from tip. the center should be
 	// radius units away from tip
 	FVector ToolSphereRadiusOffsetFromTip = -CurrentHandScale * SphereRadius
 		* CapsuleDirection;
@@ -57,7 +54,8 @@ void AFingerTipPokeTool::Tick(float DeltaTime)
 	FVector ToolPosition = CapsuleTipPosition + ToolSphereRadiusOffsetFromTip;
 	SetActorLocation(ToolPosition);
 	SetActorRotation(UKismetMathLibrary::MakeRotFromXZ(
-		CapsuleDirection, CapsuleRotation.GetRightVector()).Quaternion());
+		CapsuleDirection, CapsuleRotation.GetRightVector())
+						 .Quaternion());
 
 	InteractionPosition = CapsuleTipPosition;
 
@@ -65,7 +63,7 @@ void AFingerTipPokeTool::Tick(float DeltaTime)
 	CheckAndUpdateScale();
 }
 
-void AFingerTipPokeTool::Initialize_Implementation(UOculusXRHandComponent *HandComponent)
+void AFingerTipPokeTool::Initialize_Implementation(UOculusXRHandComponent* HandComponent)
 {
 	memset(VelocityFrames, 0, NumVelocityFrames * sizeof(FVector));
 
@@ -114,7 +112,8 @@ void AFingerTipPokeTool::Initialize_Implementation(UOculusXRHandComponent *HandC
 				ECollisionChannel::ECC_GameTraceChannel3,
 				ECollisionResponse::ECR_Overlap);
 		}
-		else {
+		else
+		{
 			CapsuleComp->SetGenerateOverlapEvents(false);
 			CapsuleComp->SetCollisionResponseToAllChannels(
 				ECollisionResponse::ECR_Ignore);
@@ -167,7 +166,7 @@ void AFingerTipPokeTool::RefreshCurrentIntersectingObjects_Implementation()
 void AFingerTipPokeTool::UpdateAverageVelocity(float DeltaTime)
 {
 	FVector CurrentPosition = GetActorLocation();
-	FVector CurrentVelocityVec = (CurrentPosition - LastPosition)/DeltaTime;
+	FVector CurrentVelocityVec = (CurrentPosition - LastPosition) / DeltaTime;
 	LastPosition = CurrentPosition;
 	VelocityFrames[CurrentVelocityFrame] = CurrentVelocityVec;
 	// if sampled more than allowed, loop back toward the beginning
@@ -181,16 +180,15 @@ void AFingerTipPokeTool::UpdateAverageVelocity(float DeltaTime)
 	 * will act like and array that loops back toward the
 	 * beginning
 	 */
-	if (!SampledMaxFramesAlready && CurrentVelocityFrame ==
-		NumVelocityFrames - 1)
+	if (!SampledMaxFramesAlready && CurrentVelocityFrame == NumVelocityFrames - 1)
 	{
 		SampledMaxFramesAlready = true;
 	}
 
 	uint32 NumFramesToSample = SampledMaxFramesAlready ? NumVelocityFrames
-		: CurrentVelocityFrame + 1;
+													   : CurrentVelocityFrame + 1;
 	for (uint32 FrameIndex = 0; FrameIndex < NumFramesToSample;
-		FrameIndex++)
+		 FrameIndex++)
 	{
 		CalculatedToolVelocity += VelocityFrames[FrameIndex];
 	}

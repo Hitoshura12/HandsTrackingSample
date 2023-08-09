@@ -25,7 +25,7 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
-	virtual void Initialize_Implementation(UOculusXRHandComponent *HandComponent)
+	virtual void Initialize_Implementation(UOculusXRHandComponent* HandComponent)
 		override;
 
 	virtual void SetVisualEnableState_Implementation(bool NewVisualEnableState) override;
@@ -59,10 +59,10 @@ protected:
 	URayToolViewHelper* RayToolViewHelperComp;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ranges",
-		meta=(ToolTip = "Cast angle from ray's center", UIMin = "0.0",
+		meta = (ToolTip = "Cast angle from ray's center", UIMin = "0.0",
 			UIMax = "45.0"))
 	float ConeAngleDegrees;
-	
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ranges")
 	float FarFieldMaxDistance;
 
@@ -118,7 +118,7 @@ private:
 	const static uint32 NumMaxPrimaryHits = 10;
 	const static uint32 NumMaxSecondaryHits = 25;
 	const static uint32 NumCollidersToTest = 20;
-	
+
 	bool bIsInitialized;
 	float ConeAngleReleaseDegrees;
 	PinchStateModule CurrPinchState;

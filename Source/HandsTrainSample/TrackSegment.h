@@ -50,7 +50,7 @@ public:
 
 	// Use index to assign an order to the segments of the track
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Positioning")
-	int SegmentIndex; 
+	int SegmentIndex;
 
 	UFUNCTION(BlueprintCallable, Category = "Positioning")
 	FTransform GetEndPose() const;
@@ -70,7 +70,7 @@ public:
 	{
 		return SegmentMeshes[(unsigned int)TrackSegmentType];
 	}
-	
+
 	UFUNCTION(BlueprintCallable, Category = "Positioning")
 	void EnableMeshAndRegenerateTrack();
 

@@ -69,18 +69,14 @@ void AHandsVisualizationSwitcher::Tick(float DeltaTime)
 		return;
 	}
 
-	bool bLeftHandConfidenceHigh = UOculusXRInputFunctionLibrary::IsHandTrackingEnabled() &&
-		UOculusXRInputFunctionLibrary::GetTrackingConfidence(
-			LeftHand->SkeletonType, 0) == EOculusXRTrackingConfidence::High;
+	bool bLeftHandConfidenceHigh = UOculusXRInputFunctionLibrary::IsHandTrackingEnabled() && UOculusXRInputFunctionLibrary::GetTrackingConfidence(LeftHand->SkeletonType, 0) == EOculusXRTrackingConfidence::High;
 	UpdateHandBoneVisuals(LeftHand, LeftHandBoneInstancedMeshes,
 		LeftHandSegmentTransforms,
 		LeftHandSegmentInfos,
 		bLeftHandBonesVisible, bLeftHandConfidenceHigh,
 		UOculusXRInputFunctionLibrary::GetHandScale(LeftHand->SkeletonType));
 
-	bool bRightHandConfidenceHigh = UOculusXRInputFunctionLibrary::IsHandTrackingEnabled() &&
-		UOculusXRInputFunctionLibrary::GetTrackingConfidence(
-			RightHand->SkeletonType, 0) == EOculusXRTrackingConfidence::High;
+	bool bRightHandConfidenceHigh = UOculusXRInputFunctionLibrary::IsHandTrackingEnabled() && UOculusXRInputFunctionLibrary::GetTrackingConfidence(RightHand->SkeletonType, 0) == EOculusXRTrackingConfidence::High;
 	UpdateHandBoneVisuals(RightHand, RightHandBoneInstancedMeshes,
 		RightHandSegmentTransforms,
 		RightHandSegmentInfos,
@@ -89,14 +85,10 @@ void AHandsVisualizationSwitcher::Tick(float DeltaTime)
 
 	// if the hand component toggled the alpha of our hand (it can happen if the hand
 	// detects the system gesture), make sure that is corrected
-	float ProperAlpha = (CurrentVisualMode == EOculusXRHandsVisualMode::Both) ?
-		HandAlphaWhenBonesVisible : 1.0f;
+	float ProperAlpha = (CurrentVisualMode == EOculusXRHandsVisualMode::Both) ? HandAlphaWhenBonesVisible : 1.0f;
 	float LeftAlpha;
 	float RightAlpha;
-	if (CurrentVisualMode == EOculusXRHandsVisualMode::Both &&
-		LeftHandMaterial->GetScalarParameterValue(HandAlphaParamName, LeftAlpha) &&
-		RightHandMaterial->GetScalarParameterValue(HandAlphaParamName, RightAlpha) &&
-		(LeftAlpha > ProperAlpha || RightAlpha > ProperAlpha))
+	if (CurrentVisualMode == EOculusXRHandsVisualMode::Both && LeftHandMaterial->GetScalarParameterValue(HandAlphaParamName, LeftAlpha) && RightHandMaterial->GetScalarParameterValue(HandAlphaParamName, RightAlpha) && (LeftAlpha > ProperAlpha || RightAlpha > ProperAlpha))
 	{
 		LeftHand->SetScalarParameterValueOnMaterials(HandAlphaParamName, ProperAlpha);
 		RightHand->SetScalarParameterValueOnMaterials(HandAlphaParamName, ProperAlpha);
@@ -119,7 +111,7 @@ void AHandsVisualizationSwitcher::InitializeMeshesFromHands()
 	EnforceCurrentVisualMode();
 }
 
-void AHandsVisualizationSwitcher::InitVisualsPerHand(UOculusXRHandComponent *Hand)
+void AHandsVisualizationSwitcher::InitVisualsPerHand(UOculusXRHandComponent* Hand)
 {
 	FTransform StandardBoneTransform(FQuat::Identity, FVector::ZeroVector,
 		FVector(1.0f, 0.01f, 0.01f));
@@ -190,8 +182,8 @@ void AHandsVisualizationSwitcher::UpdateHandBoneVisuals(
 	{
 		BoneInstancedMeshes->SetVisibility(true);
 	}
-	
-	// a scale of 1 is 1 meter for instanced mesh (because it uses a plane); 
+
+	// a scale of 1 is 1 meter for instanced mesh (because it uses a plane);
 	// convert to CM
 	float CurrentBoneScale = HandScale * BoneScaleFactor;
 	auto InstanceWorldToLocal = BoneInstancedMeshes->GetComponentTransform().Inverse();
@@ -199,10 +191,10 @@ void AHandsVisualizationSwitcher::UpdateHandBoneVisuals(
 	// Get HMD Position; bone segments need to "face" the HMD
 	FRotator DeviceRotation;
 	FVector DevicePosition;
-	UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition
-		(DeviceRotation, DevicePosition);
+	UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(DeviceRotation, DevicePosition);
 	APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
-	if (!IsValid(PlayerPawn)) {
+	if (!IsValid(PlayerPawn))
+	{
 		return;
 	}
 	FTransform PlayerTransform = PlayerPawn->GetTransform();
@@ -242,9 +234,10 @@ void AHandsVisualizationSwitcher::UpdateHandBoneVisuals(
 			SegmentWorldUp = (StartUp + EndUp) * 0.5f;
 			SegmentWorldUp.Normalize();
 		}
-		
+
 		FQuat SegmentWorldRotation = UKismetMathLibrary::MakeRotFromXZ(
-			SegmentForwardVector, SegmentWorldUp).Quaternion();
+			SegmentForwardVector, SegmentWorldUp)
+										 .Quaternion();
 		FQuat SegmentLocalRotation = InstanceWorldToLocal.TransformRotation(
 			SegmentWorldRotation);
 
@@ -258,22 +251,18 @@ void AHandsVisualizationSwitcher::UpdateHandBoneVisuals(
 
 void AHandsVisualizationSwitcher::SwitchHandsVisualization()
 {
-	if (!IsValid(LeftHand) || !IsValid(RightHand) ||
-		LeftHandBoneInstancedMeshes->GetInstanceCount() == 0 ||
-		RightHandBoneInstancedMeshes->GetInstanceCount() == 0)
+	if (!IsValid(LeftHand) || !IsValid(RightHand) || LeftHandBoneInstancedMeshes->GetInstanceCount() == 0 || RightHandBoneInstancedMeshes->GetInstanceCount() == 0)
 	{
 		return;
 	}
 
-	CurrentVisualMode = (EOculusXRHandsVisualMode)(
-		(((int)CurrentVisualMode + 1) % ((int)EOculusXRHandsVisualMode::Both + 1)));
+	CurrentVisualMode = (EOculusXRHandsVisualMode)((((int)CurrentVisualMode + 1) % ((int)EOculusXRHandsVisualMode::Both + 1)));
 	EnforceCurrentVisualMode();
 }
 
 void AHandsVisualizationSwitcher::EnforceCurrentVisualMode()
 {
-	float ProperAlpha = (CurrentVisualMode == EOculusXRHandsVisualMode::Both) ?
-		HandAlphaWhenBonesVisible : 1.0f;
+	float ProperAlpha = (CurrentVisualMode == EOculusXRHandsVisualMode::Both) ? HandAlphaWhenBonesVisible : 1.0f;
 	LeftHand->SetScalarParameterValueOnMaterials(HandAlphaParamName, ProperAlpha);
 	RightHand->SetScalarParameterValueOnMaterials(HandAlphaParamName, ProperAlpha);
 

@@ -30,7 +30,7 @@ struct FInteractableCollisionInfo
 	GENERATED_BODY()
 
 	UPROPERTY(BlueprintReadOnly)
-	UColliderZone *InteractableCollider;
+	UColliderZone* InteractableCollider;
 	UPROPERTY(BlueprintReadOnly)
 	EInteractableCollisionDepth CollisionDepth;
 	UPROPERTY(BlueprintReadOnly)
@@ -39,15 +39,12 @@ struct FInteractableCollisionInfo
 	FInteractableCollisionInfo(UColliderZone* InteractableCollider,
 		EInteractableCollisionDepth CollisionDepth,
 		AInteractableTool* CollidingTool)
-		: InteractableCollider(InteractableCollider),
-		CollisionDepth(CollisionDepth),
-		CollidingTool(CollidingTool)
+		: InteractableCollider(InteractableCollider), CollisionDepth(CollisionDepth), CollidingTool(CollidingTool)
 	{
 	}
 
-	FInteractableCollisionInfo() : InteractableCollider(nullptr),
-		CollisionDepth(EInteractableCollisionDepth::None),
-		CollidingTool(nullptr)
+	FInteractableCollisionInfo()
+		: InteractableCollider(nullptr), CollisionDepth(EInteractableCollisionDepth::None), CollidingTool(nullptr)
 	{
 	}
 };
@@ -63,13 +60,15 @@ struct FCollisionInfoKeyValuePair
 	FInteractableCollisionInfo CollisionInfo;
 
 	FCollisionInfoKeyValuePair(AInteractable* Interactable,
-		FInteractableCollisionInfo CollisionInfo) :
-		Interactable(Interactable), CollisionInfo(CollisionInfo)
-	{}
+		FInteractableCollisionInfo CollisionInfo)
+		: Interactable(Interactable), CollisionInfo(CollisionInfo)
+	{
+	}
 
-	FCollisionInfoKeyValuePair() :
-		Interactable(nullptr)
-	{}
+	FCollisionInfoKeyValuePair()
+		: Interactable(nullptr)
+	{
+	}
 };
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FInteractableToolDeathEventSignature,
@@ -126,7 +125,7 @@ public:
 	 * manually.
 	 */
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Initialization")
-	void Initialize(UOculusXRHandComponent *HandComponent);
+	void Initialize(UOculusXRHandComponent* HandComponent);
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interaction")
 	EToolInputState GetCurrInputState();
@@ -158,7 +157,7 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintPure, Meta = (Bitmask),
 		Category = "Interaction")
 	EInteractableToolTags GetToolTags();
-	
+
 	/**
 	 * We need to find out which collision is closest to a certain position.
 	 * Useful if a far field tool like a ray is case and we want to find

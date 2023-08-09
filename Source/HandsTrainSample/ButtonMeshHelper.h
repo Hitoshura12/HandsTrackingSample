@@ -11,7 +11,7 @@ class AInteractableButton;
 class UStaticMeshComponent;
 class UColliderZone;
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class HANDSTRAINSAMPLE_API UButtonMeshHelper : public UActorComponent
 {
 	GENERATED_BODY()
@@ -23,8 +23,7 @@ public:
 	FVector OldRelativePosition;
 
 	UFUNCTION(BlueprintCallable, Category = "Button")
-	void Initialize(AInteractableButton* ParentButton, UColliderZone*
-		ButtonContact, UStaticMeshComponent* StaticMeshComponent);
+	void Initialize(AInteractableButton* ParentButton, UColliderZone* ButtonContact, UStaticMeshComponent* StaticMeshComponent);
 
 	UFUNCTION()
 	void InteractableStateChanged(const FInteractableStateArgs& StateArgs);
@@ -65,5 +64,5 @@ private:
 	const static float ButtonDepth;
 
 	float ButtonInContactOrActionStates;
-	UStaticMeshComponent *MeshComponent;
+	UStaticMeshComponent* MeshComponent;
 };

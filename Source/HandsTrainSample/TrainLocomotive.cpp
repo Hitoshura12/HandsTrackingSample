@@ -29,7 +29,7 @@ void ATrainLocomotive::BeginPlay()
 	bIsStartingOrStopping = false;
 	CurrentSpeed = 0.0f;
 	SpeedDiv = AccelerationSounds.Num() > 0 ? (MaxSpeed - MinSpeed) / (float)AccelerationSounds.Num()
-		: 0;
+											: 0;
 
 	EngineAudioComp = (UAudioComponent*)GetDefaultSubobjectByName(FName(
 		TEXT("EngineAudio")));
@@ -119,7 +119,6 @@ void ATrainLocomotive::StartStopTrain(bool bStartTrain)
 		TimePeriodForSpeedChange = PlayEngineSoundAndGetLength(EEngineSoundState::Stop);
 	}
 
-	
 	// Make the animation time period a little shorter;
 	// if the animation was close to the same length, we might animate the train
 	// and the startup sound might stop for a moment before the normal
@@ -162,15 +161,15 @@ float ATrainLocomotive::PlayEngineSoundAndGetLength(EEngineSoundState NewSoundSt
 	else
 	{
 		TArray<USoundBase*> Sounds = NewSoundState == EEngineSoundState::AccelerateOrSetProperSpeed
-			? AccelerationSounds : DecelerationSounds;
+			? AccelerationSounds
+			: DecelerationSounds;
 		auto NumSounds = Sounds.Num();
 		auto SpeedIndex = FMath::RoundToInt((CurrentSpeed - MinSpeed) / SpeedDiv);
 		AudioClip = Sounds[FMath::Clamp(SpeedIndex, 0, NumSounds - 1)];
 	}
 
 	// if audio is already playing and we are playing the same track, don't interrupt
-	if (EngineAudioComp->Sound == AudioClip && EngineAudioComp->IsPlaying() &&
-		NewSoundState == EEngineSoundState::AccelerateOrSetProperSpeed)
+	if (EngineAudioComp->Sound == AudioClip && EngineAudioComp->IsPlaying() && NewSoundState == EEngineSoundState::AccelerateOrSetProperSpeed)
 	{
 		return 0.0f;
 	}

@@ -33,9 +33,8 @@ void URayToolViewHelper::BeginPlay()
 void URayToolViewHelper::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	
-	if (!IsValid(InteractableTool) || !IsValid(TargetMesh) ||
-		!IsValid(RayMesh))
+
+	if (!IsValid(InteractableTool) || !IsValid(TargetMesh) || !IsValid(RayMesh))
 	{
 		return;
 	}
@@ -43,9 +42,8 @@ void URayToolViewHelper::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 	auto ToolPosition = InteractableTool->GetActorLocation();
 	auto ToolForward = InteractableTool->GetActorForwardVector();
 
-	FVector TargetPosition = IsValid(FocusedInteractable) ?
-		FocusedInteractable->GetActorLocation()
-		: ToolPosition + ToolForward * DefaultRayCastDistance;
+	FVector TargetPosition = IsValid(FocusedInteractable) ? FocusedInteractable->GetActorLocation()
+														  : ToolPosition + ToolForward * DefaultRayCastDistance;
 	FVector TargetVector = TargetPosition - ToolPosition;
 	float TargetDistance = TargetVector.Size();
 
@@ -80,8 +78,8 @@ void URayToolViewHelper::UpdateRayMesh(FVector ToolPosition, FVector ToolForward
 			FVector SegmentVector = CurrentRayPoint - RayPointBefore;
 			float SegmentSize = SegmentVector.Size();
 
-			FVector SegmentLocalScale(SegmentSize*RayScaleFactor,
-				0.2f*RayScaleFactor, 0.2f*RayScaleFactor);
+			FVector SegmentLocalScale(SegmentSize * RayScaleFactor,
+				0.2f * RayScaleFactor, 0.2f * RayScaleFactor);
 			FVector AveragePosition = (RayPointBefore + CurrentRayPoint) * 0.5f;
 			FVector SegmentLocalPosition(InstanceWorldToLocal.TransformPosition(AveragePosition));
 
@@ -97,7 +95,8 @@ void URayToolViewHelper::UpdateRayMesh(FVector ToolPosition, FVector ToolForward
 			}
 
 			FQuat SegmentWorldRotation = UKismetMathLibrary::MakeRotFromXZ(
-				SegmentVector, SegmentWorldUp).Quaternion();
+				SegmentVector, SegmentWorldUp)
+											 .Quaternion();
 			FQuat SegmentLocalRotation = InstanceWorldToLocal.TransformRotation(
 				SegmentWorldRotation);
 
@@ -115,12 +114,10 @@ FVector URayToolViewHelper::GetPointOnBezierCurve(FVector P0, FVector P1, FVecto
 	float OneMinusT = 1.0f - T;
 	float OneMinusTSqr = OneMinusT * OneMinusT;
 	float TSqr = T * T;
-	return OneMinusT * OneMinusTSqr * P0 +
-		3.0f * OneMinusTSqr * T * P1 + 3.0f * OneMinusT * TSqr * P2 +
-		T * TSqr * P3;
+	return OneMinusT * OneMinusTSqr * P0 + 3.0f * OneMinusTSqr * T * P1 + 3.0f * OneMinusT * TSqr * P2 + T * TSqr * P3;
 }
 
-void URayToolViewHelper::Initialize(AInteractableTool *Tool,
+void URayToolViewHelper::Initialize(AInteractableTool* Tool,
 	UStaticMeshComponent* NewTargetMesh,
 	UInstancedStaticMeshComponent* NewRayMesh)
 {
@@ -178,11 +175,10 @@ void URayToolViewHelper::SetToolActiveState(bool bNewActiveState)
 {
 	bToolActivateState = bNewActiveState;
 	RayMesh->SetVectorParameterValueOnMaterials(ColorPropertyName,
-		bToolActivateState ?
-		FVector(HighlightColor.R / 255.0f, HighlightColor.G / 255.0f, HighlightColor.B / 255.0f)
-		: FVector(NormalColor.R / 255.0f, NormalColor.G / 255.0f, NormalColor.B / 255.0f));
+		bToolActivateState ? FVector(HighlightColor.R / 255.0f, HighlightColor.G / 255.0f, HighlightColor.B / 255.0f)
+						   : FVector(NormalColor.R / 255.0f, NormalColor.G / 255.0f, NormalColor.B / 255.0f));
 	RayMesh->SetScalarParameterValueOnMaterials(OpacityPropertName,
-		bToolActivateState ? HighlightColor.A/255.0f : NormalColor.A / 255.0f);
+		bToolActivateState ? HighlightColor.A / 255.0f : NormalColor.A / 255.0f);
 }
 
 void URayToolViewHelper::SetFocusedInteractable(AInteractable* NewFocusedInteractable)
@@ -196,5 +192,3 @@ void URayToolViewHelper::SetFocusedInteractable(AInteractable* NewFocusedInterac
 		FocusedInteractable = NewFocusedInteractable;
 	}
 }
-
-

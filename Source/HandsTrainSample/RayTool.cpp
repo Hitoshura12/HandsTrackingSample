@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "RayTool.h"
 #include "Interactable.h"
 #include "Math/UnrealMathUtility.h"
@@ -57,7 +56,7 @@ void ARayTool::BeginPlay()
 	ConeAngleReleaseDegrees = ConeAngleDegrees * 1.2f;
 }
 
-void ARayTool::Initialize_Implementation(UOculusXRHandComponent *HandComponent)
+void ARayTool::Initialize_Implementation(UOculusXRHandComponent* HandComponent)
 {
 	Hand = HandComponent;
 	RayToolViewHelperComp->Initialize(this, TargetMesh, RayMesh);
@@ -65,9 +64,7 @@ void ARayTool::Initialize_Implementation(UOculusXRHandComponent *HandComponent)
 
 	EnableInput(GetWorld()->GetFirstPlayerController());
 
-	InputComponent->BindAxis(IsRightHandedTool ?
-		FName(TEXT("OculusRHandIndexPinchStrength")) :
-		FName(TEXT("OculusLHandIndexPinchStrength")));
+	InputComponent->BindAxis(IsRightHandedTool ? FName(TEXT("OculusRHandIndexPinchStrength")) : FName(TEXT("OculusLHandIndexPinchStrength")));
 }
 
 void ARayTool::SetVisualEnableState_Implementation(bool NewVisualEnableState)
@@ -102,12 +99,11 @@ void ARayTool::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (!IsValid(Hand) || !bIsInitialized ||
-		!UOculusXRInputFunctionLibrary::IsPointerPoseValid(Hand->SkeletonType))
+	if (!IsValid(Hand) || !bIsInitialized || !UOculusXRInputFunctionLibrary::IsPointerPoseValid(Hand->SkeletonType))
 	{
 		return;
 	}
-	
+
 	Hand->SetRenderCustomDepth(true);
 	FTransform PointerPoseTransform =
 		UOculusXRInputFunctionLibrary::GetPointerPose(Hand->SkeletonType);
@@ -118,16 +114,12 @@ void ARayTool::Tick(float DeltaTime)
 	SetActorRotation(PointerPoseTransform.GetRotation());
 
 	auto PrevPosition = InteractionPosition;
-	CalculatedToolVelocity = (CurrentPosition - PrevPosition) /
-		DeltaTime;
+	CalculatedToolVelocity = (CurrentPosition - PrevPosition) / DeltaTime;
 	InteractionPosition = CurrentPosition;
-	float PinchStrength = GetInputAxisValue(IsRightHandedTool ?
-		FName(TEXT("OculusRHandIndexPinchStrength")) :
-		FName(TEXT("OculusLHandIndexPinchStrength")));
+	float PinchStrength = GetInputAxisValue(IsRightHandedTool ? FName(TEXT("OculusRHandIndexPinchStrength")) : FName(TEXT("OculusLHandIndexPinchStrength")));
 
 	CurrPinchState.UpdateState(PinchStrength, FocusedInteractable, IsRightHandedTool);
-	RayToolViewHelperComp->SetToolActiveState(CurrPinchState.PinchSteadyOnFocusedObject() ||
-		CurrPinchState.PinchDownOnFocusedObject());
+	RayToolViewHelperComp->SetToolActiveState(CurrPinchState.PinchSteadyOnFocusedObject() || CurrPinchState.PinchDownOnFocusedObject());
 }
 
 void ARayTool::RefreshCurrentIntersectingObjects_Implementation()
@@ -139,8 +131,7 @@ void ARayTool::RefreshCurrentIntersectingObjects_Implementation()
 
 	// If already focused on something, keep it until the angle between
 	// our forward direction and object vector becomes too large
-	if (IsValid(CurrInteractableRaycastedAgainst) &&
-		HasRayReleasedInteractable(CurrInteractableRaycastedAgainst))
+	if (IsValid(CurrInteractableRaycastedAgainst) && HasRayReleasedInteractable(CurrInteractableRaycastedAgainst))
 	{
 		CurrInteractableRaycastedAgainst = nullptr;
 	}
@@ -179,8 +170,7 @@ void ARayTool::RefreshCurrentIntersectingObjects_Implementation()
 				}
 
 				AInteractable* CurrInteractable = HitColliderZone->ParentInteractable;
-				if (!IsValid(CurrInteractable) ||
-					CurrInteractable != CurrInteractableRaycastedAgainst)
+				if (!IsValid(CurrInteractable) || CurrInteractable != CurrInteractableRaycastedAgainst)
 				{
 					continue;
 				}
@@ -251,7 +241,6 @@ AInteractable* ARayTool::FindTargetInteractable()
 	}
 	else
 	{
-		
 	}
 
 	return TargetInteractable;
@@ -281,18 +270,14 @@ AInteractable* ARayTool::FindPrimaryRaycastHit(FVector RayOrigin, FVector RayDir
 		// Only consider an interactable that is compatible with
 		// tool
 		AInteractable* CurrInteractable = HitColliderZone->ParentInteractable;
-		if (!IsValid(CurrInteractable) ||
-			(CurrInteractable->GetValidToolTagsMask() & (int)GetToolTags())
-			== 0)
+		if (!IsValid(CurrInteractable) || (CurrInteractable->GetValidToolTagsMask() & (int)GetToolTags()) == 0)
 		{
 			continue;
 		}
 
-		auto VectorToInteractable = CurrInteractable->GetActorLocation() -
-			RayOrigin;
+		auto VectorToInteractable = CurrInteractable->GetActorLocation() - RayOrigin;
 		float DistanceToInteractable = VectorToInteractable.Size();
-		if (InteractableCastedAgainst == nullptr ||
-			DistanceToInteractable < MinDistance)
+		if (InteractableCastedAgainst == nullptr || DistanceToInteractable < MinDistance)
 		{
 			InteractableCastedAgainst = CurrInteractable;
 			MinDistance = DistanceToInteractable;
@@ -312,13 +297,13 @@ AInteractable* ARayTool::FindInteractableViaConeTest(FVector RayOrigin,
 		ConeAngleDegrees));
 	// cone extends from center line, where angle is split between
 	// top and bottom half
-	float HalfAngle = FMath::DegreesToRadians(ConeAngleDegrees*0.5f);
-	float ConeRadius = tan(HalfAngle)*FarFieldMaxDistance;
+	float HalfAngle = FMath::DegreesToRadians(ConeAngleDegrees * 0.5f);
+	float ConeRadius = tan(HalfAngle) * FarFieldMaxDistance;
 
 	UWorld* TheWorld = this->GetWorld();
 	TArray<FOverlapResult> Results;
 	FCollisionShape BoxShape = FCollisionShape::MakeBox(
-		FVector(FarFieldMaxDistance*0.5,
+		FVector(FarFieldMaxDistance * 0.5,
 			ConeRadius, ConeRadius));
 
 	// See DefaultEngine.ini for a mapping between this enum and the custom
@@ -338,9 +323,7 @@ AInteractable* ARayTool::FindInteractableViaConeTest(FVector RayOrigin,
 		}
 
 		AInteractable* InteractableComponent = HitColliderZone->ParentInteractable;
-		if (!IsValid(InteractableComponent) ||
-			(InteractableComponent->GetValidToolTagsMask() & (int)GetToolTags())
-			== 0)
+		if (!IsValid(InteractableComponent) || (InteractableComponent->GetValidToolTagsMask() & (int)GetToolTags()) == 0)
 		{
 			continue;
 		}
@@ -365,4 +348,3 @@ AInteractable* ARayTool::FindInteractableViaConeTest(FVector RayOrigin,
 
 	return TargetInteractable;
 }
-

@@ -14,7 +14,7 @@ UCLASS()
 class HANDSTRAINSAMPLE_API ATrainCrossing : public AActor
 {
 	GENERATED_BODY()
-	
+
 public:
 	ATrainCrossing();
 
@@ -55,7 +55,7 @@ protected:
 	UAudioComponent* AudioComp;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	USceneComponent *CollidableAnchor;
+	USceneComponent* CollidableAnchor;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio")
 	USoundBase* CrossingSound;
@@ -73,5 +73,4 @@ protected:
 	AInteractableTool* ToolInteractingWithMe;
 
 	virtual void BeginPlay() override;
-
 };

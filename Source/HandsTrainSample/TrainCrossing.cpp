@@ -48,9 +48,9 @@ void ATrainCrossing::Tick(float DeltaTime)
 	else
 	{
 		SelectionCylinderHelperComp->SetSelectionState(
-			(ToolInteractingWithMe->GetCurrInputState() == EToolInputState::PrimaryInputDown ||
-			ToolInteractingWithMe->GetCurrInputState() == EToolInputState::PrimaryInputDownStay)
-			? ESelectionState::Highlighted : ESelectionState::Selected);
+			(ToolInteractingWithMe->GetCurrInputState() == EToolInputState::PrimaryInputDown || ToolInteractingWithMe->GetCurrInputState() == EToolInputState::PrimaryInputDownStay)
+				? ESelectionState::Highlighted
+				: ESelectionState::Selected);
 	}
 }
 
@@ -62,8 +62,7 @@ void ATrainCrossing::InteractableStateChanged(const FInteractableStateArgs& Stat
 		ActivateTrainCrossing();
 	}
 
-	ToolInteractingWithMe = StateArgs.NewInteractableState > EInteractableState::Default ?
-		StateArgs.Tool : nullptr;
+	ToolInteractingWithMe = StateArgs.NewInteractableState > EInteractableState::Default ? StateArgs.Tool : nullptr;
 }
 
 void ATrainCrossing::ActivateTrainCrossing()
@@ -84,4 +83,3 @@ void ATrainCrossing::ToggleLightObjects(bool enableState)
 	Light1Mesh->SetVisibility(enableState, true);
 	Light2Mesh->SetVisibility(enableState, true);
 }
-

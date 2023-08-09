@@ -7,12 +7,12 @@
 #include "TrackSegment.h"
 #include "TrackSegmentMetaInfo.generated.h"
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class HANDSTRAINSAMPLE_API UTrackSegmentMetaInfo : public USceneComponent
 {
 	GENERATED_BODY()
 
-public:	
+public:
 	UTrackSegmentMetaInfo();
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Enum")
@@ -31,7 +31,7 @@ public:
 
 protected:
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Positioning")
-		float ComputeRadius(float GridSize) const
+	float ComputeRadius(float GridSize) const
 	{
 		return 0.5f * GridSize;
 	}

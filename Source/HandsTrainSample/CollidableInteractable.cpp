@@ -44,8 +44,7 @@ void ACollidableInteractable::UpdateCollisionDepth_Implementation(
 	bool IsFarFieldTool = InteractableTool->IsFarFieldTool;
 
 	// If this is a near field tool and another tool already controls it, bail
-	if (!IsFarFieldTool && ToolToState.Num() > 0 &&
-		!ToolToState.Contains(InteractableTool))
+	if (!IsFarFieldTool && ToolToState.Num() > 0 && !ToolToState.Contains(InteractableTool))
 	{
 		return;
 	}
@@ -56,8 +55,7 @@ void ACollidableInteractable::UpdateCollisionDepth_Implementation(
 	auto MyTransform = GetActorTransform();
 	auto CurrPressDirection = MyTransform.TransformVector(LocalPressDirection);
 
-	bool ValidContact = IsValidContact(InteractableTool, CurrPressDirection) ||
-		InteractableTool->IsFarFieldTool;
+	bool ValidContact = IsValidContact(InteractableTool, CurrPressDirection) || InteractableTool->IsFarFieldTool;
 	// In case tool enters contact zone first, we are in proximity as well
 	bool ToolIsInProximity = NewCollisionDepth >= EInteractableCollisionDepth::Proximity;
 	bool ToolIsInContactZone = NewCollisionDepth == EInteractableCollisionDepth::Contact;
@@ -80,9 +78,8 @@ void ACollidableInteractable::UpdateCollisionDepth_Implementation(
 	auto UpcomingState = OldState;
 	if (IsFarFieldTool)
 	{
-		UpcomingState = ToolIsInContactZone ? EInteractableState::ContactState :
-			ToolIsInActionZone ? EInteractableState::ActionState :
-			EInteractableState::Default;
+		UpcomingState = ToolIsInContactZone ? EInteractableState::ContactState : ToolIsInActionZone ? EInteractableState::ActionState
+																									: EInteractableState::Default;
 	}
 	else
 	{
@@ -90,8 +87,7 @@ void ACollidableInteractable::UpdateCollisionDepth_Implementation(
 		FPlane InteractableZonePlane(InteractablePlaneCenter->GetComponentLocation(), -CurrPressDirection);
 		// Skip plane test if boolean flag tells us to ignore it
 		float DotProdPlane = InteractableZonePlane.PlaneDot(InteractableTool->GetInteractionPosition());
-		bool OnPositiveSideOfInteractable = !MakeSureInteractingToolIsOnPositiveSide ||
-			DotProdPlane > 0.0f;
+		bool OnPositiveSideOfInteractable = !MakeSureInteractingToolIsOnPositiveSide || DotProdPlane > 0.0f;
 		UpcomingState = GetUpcomingStateNearField(OldState, NewCollisionDepth,
 			ToolIsInActionZone, ToolIsInContactZone, ToolIsInProximity,
 			ValidContact, OnPositiveSideOfInteractable);
@@ -99,7 +95,8 @@ void ACollidableInteractable::UpdateCollisionDepth_Implementation(
 
 	if (UpcomingState != EInteractableState::Default)
 	{
-		if (ToolToState.Contains(InteractableTool)) {
+		if (ToolToState.Contains(InteractableTool))
+		{
 			ToolToState[InteractableTool] = UpcomingState;
 		}
 		else
@@ -130,13 +127,11 @@ void ACollidableInteractable::UpdateCollisionDepth_Implementation(
 	if (OldState != UpcomingState)
 	{
 		CurrentState = UpcomingState;
-		auto InteractionType = !SwitchingStates ? ECollisionInteractionType::Stay :
-			NewCollisionDepth == EInteractableCollisionDepth::None ? ECollisionInteractionType::Exit :
-			ECollisionInteractionType::Enter;
-		auto CurrentCollider = CurrentState == EInteractableState::ProximityState ?
-			ProximityZone : CurrentState == EInteractableState::ContactState ?
-			ContactZone : CurrentState == EInteractableState::ActionState ?
-			ActionZone : nullptr;
+		auto InteractionType = !SwitchingStates ? ECollisionInteractionType::Stay : NewCollisionDepth == EInteractableCollisionDepth::None ? ECollisionInteractionType::Exit
+																																		   : ECollisionInteractionType::Enter;
+		auto CurrentCollider = CurrentState == EInteractableState::ProximityState ? ProximityZone : CurrentState == EInteractableState::ContactState ? ContactZone
+			: CurrentState == EInteractableState::ActionState																						 ? ActionZone
+																																					 : nullptr;
 		OnInteractableStateChanged.Broadcast(
 			FInteractableStateArgs(this, InteractableTool, OldState, CurrentState,
 				FColliderZoneArgs(CurrentCollider, UKismetSystemLibrary::GetFrameCount(),
@@ -153,71 +148,69 @@ EInteractableState ACollidableInteractable::GetUpcomingStateNearField(EInteracta
 
 	switch (OldState)
 	{
-	case EInteractableState::ActionState:
-		if (!ToolIsInActionZone)
-		{
-			// If retreating from action, can go back into action
-			// state even if contact is not legal (i.e. tool/finger retracts)
-			if (ToolIsInContactZone)
+		case EInteractableState::ActionState:
+			if (!ToolIsInActionZone)
 			{
-				UpcomingState = EInteractableState::ContactState;
+				// If retreating from action, can go back into action
+				// state even if contact is not legal (i.e. tool/finger retracts)
+				if (ToolIsInContactZone)
+				{
+					UpcomingState = EInteractableState::ContactState;
+				}
+				else if (ToolIsInProximity)
+				{
+					UpcomingState = EInteractableState::ProximityState;
+				}
+				else
+				{
+					UpcomingState = EInteractableState::Default;
+				}
 			}
-			else if (ToolIsInProximity)
+			break;
+		case EInteractableState::ContactState:
+			if (NewCollisionDepth < EInteractableCollisionDepth::Contact)
 			{
-				UpcomingState = EInteractableState::ProximityState;
+				UpcomingState = ToolIsInProximity ? EInteractableState::ProximityState
+												  : EInteractableState::Default;
 			}
-			else
-			{
-				UpcomingState = EInteractableState::Default;
-			}
-		}
-		break;
-	case EInteractableState::ContactState:
-		if (NewCollisionDepth < EInteractableCollisionDepth::Contact)
-		{
-			UpcomingState = ToolIsInProximity ? EInteractableState::ProximityState
-				: EInteractableState::Default;
-		}
-		/**
+			/**
 		 * Can only go to action state if contact is legal.
 		 * If tool goes into contact state due to proper movement,
 		 * but does not maintain that movement throughout (i.e. a tool/finger
 		 * presses downwards initially but moves in random directions
 		 * afterwards), then don't go into action state
 		 */
-		else if (ToolIsInActionZone && ValidContact && OnPositiveSideOfButton)
-		{
-			UpcomingState = EInteractableState::ActionState;
-		}
-		break;
-	case EInteractableState::ProximityState:
-		if (NewCollisionDepth < EInteractableCollisionDepth::Proximity)
-		{
-			UpcomingState = EInteractableState::Default;
-		}
-		else if (ValidContact && OnPositiveSideOfButton &&
-			NewCollisionDepth > EInteractableCollisionDepth::Proximity)
-		{
-			UpcomingState = NewCollisionDepth == EInteractableCollisionDepth::Action
-				? EInteractableState::ActionState
-				: EInteractableState::ContactState;
-		}
-		break;
-	case EInteractableState::Default:
-		// Test contact, action first then proximity (more important
-		// states take precedence)
-		if (ValidContact && OnPositiveSideOfButton &&
-			NewCollisionDepth > EInteractableCollisionDepth::Proximity)
-		{
-			UpcomingState = NewCollisionDepth == EInteractableCollisionDepth::Action
-				? EInteractableState::ActionState
-				: EInteractableState::ContactState;
-		}
-		else if (ToolIsInProximity)
-		{
-			UpcomingState = EInteractableState::ProximityState;
-		}
-		break;
+			else if (ToolIsInActionZone && ValidContact && OnPositiveSideOfButton)
+			{
+				UpcomingState = EInteractableState::ActionState;
+			}
+			break;
+		case EInteractableState::ProximityState:
+			if (NewCollisionDepth < EInteractableCollisionDepth::Proximity)
+			{
+				UpcomingState = EInteractableState::Default;
+			}
+			else if (ValidContact && OnPositiveSideOfButton && NewCollisionDepth > EInteractableCollisionDepth::Proximity)
+			{
+				UpcomingState = NewCollisionDepth == EInteractableCollisionDepth::Action
+					? EInteractableState::ActionState
+					: EInteractableState::ContactState;
+			}
+			break;
+		case EInteractableState::Default:
+			// Test contact, action first then proximity (more important
+			// states take precedence)
+			if (ValidContact && OnPositiveSideOfButton && NewCollisionDepth > EInteractableCollisionDepth::Proximity)
+			{
+				UpcomingState = NewCollisionDepth == EInteractableCollisionDepth::Action
+					? EInteractableState::ActionState
+					: EInteractableState::ContactState;
+			}
+			else if (ToolIsInProximity)
+			{
+				UpcomingState = EInteractableState::ProximityState;
+			}
+			break;
 	}
 
 	return UpcomingState;
@@ -228,18 +221,18 @@ void ACollidableInteractable::FireInteractionEventsEventsOnDepth(EInteractableCo
 {
 	switch (CurrentDepth)
 	{
-	case EInteractableCollisionDepth::Proximity:
-		OnProximityZoneEvent.Broadcast(FColliderZoneArgs(ProximityZone,
-			UKismetSystemLibrary::GetFrameCount(), CollidingTool, InteractionType));
-		break;
-	case EInteractableCollisionDepth::Contact:
-		OnContactZoneEvent.Broadcast(FColliderZoneArgs(ContactZone,
-			UKismetSystemLibrary::GetFrameCount(), CollidingTool, InteractionType));
-		break;
-	case EInteractableCollisionDepth::Action:
-		OnActionZoneEvent.Broadcast(FColliderZoneArgs(ActionZone,
-			UKismetSystemLibrary::GetFrameCount(), CollidingTool, InteractionType));
-		break;
+		case EInteractableCollisionDepth::Proximity:
+			OnProximityZoneEvent.Broadcast(FColliderZoneArgs(ProximityZone,
+				UKismetSystemLibrary::GetFrameCount(), CollidingTool, InteractionType));
+			break;
+		case EInteractableCollisionDepth::Contact:
+			OnContactZoneEvent.Broadcast(FColliderZoneArgs(ContactZone,
+				UKismetSystemLibrary::GetFrameCount(), CollidingTool, InteractionType));
+			break;
+		case EInteractableCollisionDepth::Action:
+			OnActionZoneEvent.Broadcast(FColliderZoneArgs(ActionZone,
+				UKismetSystemLibrary::GetFrameCount(), CollidingTool, InteractionType));
+			break;
 	}
 }
 
@@ -254,20 +247,20 @@ bool ACollidableInteractable::IsValidContact(AInteractableTool* CollidingTool, F
 	{
 		switch (contactTest)
 		{
-		case EContactTest::BackwardsPress:
-			if (!PassEntryTest(CollidingTool, EntryDirection))
-			{
-				return false;
-			}
+			case EContactTest::BackwardsPress:
+				if (!PassEntryTest(CollidingTool, EntryDirection))
+				{
+					return false;
+				}
 
-			break;
-		default:
-			if (!PassPerpTest(CollidingTool, EntryDirection))
-			{
-				return false;
-			}
+				break;
+			default:
+				if (!PassPerpTest(CollidingTool, EntryDirection))
+				{
+					return false;
+				}
 
-			break;
+				break;
 		}
 	}
 

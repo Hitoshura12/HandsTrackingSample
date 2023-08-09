@@ -15,7 +15,6 @@ class HANDSTRAINSAMPLE_API ACowCar : public ANormalTrainCar
 {
 	GENERATED_BODY()
 public:
-
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "CowAnimations")
 	void GoMooCowGo();
 };

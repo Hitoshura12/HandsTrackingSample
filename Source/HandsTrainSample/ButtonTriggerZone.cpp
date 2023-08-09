@@ -6,9 +6,8 @@
 EInteractableCollisionDepth UButtonTriggerZone::GetCollisionDepth_Implementation() const
 {
 	auto depth =
-		ParentInteractable->ProximityZone == this ? EInteractableCollisionDepth::Proximity :
-		ParentInteractable->ContactZone == this ? EInteractableCollisionDepth::Contact :
-		ParentInteractable->ActionZone == this ? EInteractableCollisionDepth::Action :
-		EInteractableCollisionDepth::None;
+		ParentInteractable->ProximityZone == this ? EInteractableCollisionDepth::Proximity : ParentInteractable->ContactZone == this ? EInteractableCollisionDepth::Contact
+		: ParentInteractable->ActionZone == this																					 ? EInteractableCollisionDepth::Action
+																																	 : EInteractableCollisionDepth::None;
 	return depth;
 }

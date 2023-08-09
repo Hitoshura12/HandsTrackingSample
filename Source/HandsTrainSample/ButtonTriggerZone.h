@@ -16,6 +16,5 @@ class HANDSTRAINSAMPLE_API UButtonTriggerZone : public UColliderZone
 {
 	GENERATED_BODY()
 public:
-
 	virtual EInteractableCollisionDepth GetCollisionDepth_Implementation() const override;
 };

@@ -36,8 +36,9 @@ void InteractableToolsInputRouter::UpdateToolsForHand(
 	}
 
 	bool HandIsReliable = UOculusXRInputFunctionLibrary::GetTrackingConfidence(
-		Hand->SkeletonType, 0) == EOculusXRTrackingConfidence::High &&
-		UOculusXRInputFunctionLibrary::IsHandTrackingEnabled();
+							  Hand->SkeletonType, 0)
+			== EOculusXRTrackingConfidence::High
+		&& UOculusXRInputFunctionLibrary::IsHandTrackingEnabled();
 
 	bool EncounteredNearObjectsHand = UpdateToolsAndGetEncounteredObjects(
 		HandNearTools, HandIsReliable);
@@ -86,28 +87,23 @@ bool InteractableToolsInputRouter::UpdateTools(const TSet<AInteractableTool*>& T
 
 			if (CurrentInteractableTool->IsFarFieldTool)
 			{
-				auto FirstInteractable = CurrentInteractableTool->
-					GetFirstCurrentCollisionInfoClosestToPosition(
-						CurrentInteractableTool->GetActorLocation()
-					);
+				auto FirstInteractable = CurrentInteractableTool->GetFirstCurrentCollisionInfoClosestToPosition(
+					CurrentInteractableTool->GetActorLocation());
 
 				/**
 				 * If our tool is activated, make sure depth is "action".
 				 * This means that far field tools will make an interactable
 				 * go directly into the action state.
 				 */
-				if (CurrentInteractableTool->GetCurrInputState() ==
-					EToolInputState::PrimaryInputUp)
+				if (CurrentInteractableTool->GetCurrInputState() == EToolInputState::PrimaryInputUp)
 				{
-					FirstInteractable.CollisionInfo.InteractableCollider
-						= FirstInteractable.Interactable->ActionZone;
+					FirstInteractable.CollisionInfo.InteractableCollider = FirstInteractable.Interactable->ActionZone;
 					FirstInteractable.CollisionInfo.CollisionDepth =
 						EInteractableCollisionDepth::Action;
 				}
 				else
 				{
-					FirstInteractable.CollisionInfo.InteractableCollider
-						= FirstInteractable.Interactable->ContactZone;
+					FirstInteractable.CollisionInfo.InteractableCollider = FirstInteractable.Interactable->ContactZone;
 					FirstInteractable.CollisionInfo.CollisionDepth =
 						EInteractableCollisionDepth::Contact;
 				}
@@ -147,4 +143,3 @@ void InteractableToolsInputRouter::ToggleToolsVisualEnableState(
 		}
 	}
 }
-

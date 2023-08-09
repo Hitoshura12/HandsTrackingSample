@@ -14,8 +14,8 @@ UCLASS()
 class HANDSTRAINSAMPLE_API ATrainParent : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	ATrainParent();
 
 	UFUNCTION(BlueprintCallable, Category = "Behaviors")
@@ -47,24 +47,24 @@ protected:
 	TSubclassOf<ANormalTrainCar> TrainCowCarBP;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Initialization")
-	USceneComponent *TrainLocomotiveAnchorComp;
+	USceneComponent* TrainLocomotiveAnchorComp;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Initialization")
-	USceneComponent *TrainCoalCarAnchorComp;
+	USceneComponent* TrainCoalCarAnchorComp;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Initialization")
-	USceneComponent *TrainBoxCarAnchorComp;
+	USceneComponent* TrainBoxCarAnchorComp;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Initialization")
-	USceneComponent *TrainOilCarAnchorComp;
+	USceneComponent* TrainOilCarAnchorComp;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Initialization")
-	USceneComponent *TrainLumberCarAnchorComp;
+	USceneComponent* TrainLumberCarAnchorComp;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Initialization")
-	USceneComponent *TrainCowCarAnchorComp;
+	USceneComponent* TrainCowCarAnchorComp;
 
 private:
-	void SpawnTrainCar(ATrainTrack* ParentTrack, USceneComponent *AnchorComp,
+	void SpawnTrainCar(ATrainTrack* ParentTrack, USceneComponent* AnchorComp,
 		TSubclassOf<ANormalTrainCar> ReferenceBlueprint);
 };
