@@ -12,12 +12,12 @@ UCLASS()
 class HANDSTRAINSAMPLE_API ATrainTrack : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	ATrainTrack();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Dimensions,
-		meta=(Tooltip="Length of track segment's side"))
+		meta = (Tooltip = "Length of track segment's side"))
 	float GridSize;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Track Spawning")

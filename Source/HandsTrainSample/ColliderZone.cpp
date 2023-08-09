@@ -8,4 +8,3 @@ EInteractableCollisionDepth UColliderZone::GetCollisionDepth_Implementation() co
 {
 	return EInteractableCollisionDepth::None;
 }
-

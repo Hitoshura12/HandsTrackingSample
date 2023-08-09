@@ -20,20 +20,17 @@ PinchStateModule::~PinchStateModule()
 
 bool PinchStateModule::GetPinchUpAndDownOnFocusedObject()
 {
-	return CurrentPinchState == EPinchState::PinchUp &&
-		IsValid(FirstFocusedInteractable);
+	return CurrentPinchState == EPinchState::PinchUp && IsValid(FirstFocusedInteractable);
 }
 
 bool PinchStateModule::PinchSteadyOnFocusedObject()
 {
-	return CurrentPinchState == EPinchState::PinchStay &&
-		IsValid(FirstFocusedInteractable);
+	return CurrentPinchState == EPinchState::PinchStay && IsValid(FirstFocusedInteractable);
 }
 
 bool PinchStateModule::PinchDownOnFocusedObject()
 {
-	return CurrentPinchState == EPinchState::PinchDown &&
-		IsValid(FirstFocusedInteractable);
+	return CurrentPinchState == EPinchState::PinchDown && IsValid(FirstFocusedInteractable);
 }
 
 bool PinchStateModule::UpdateState(float PinchStrength,
@@ -76,8 +73,7 @@ bool PinchStateModule::UpdateState(float PinchStrength,
 			break;
 		// Pinch down lasts for a max of 1 frame; either go to pinch stay or up
 		case EPinchState::PinchDown:
-			CurrentPinchState = IsPinching ? EPinchState::PinchStay :
-				EPinchState::PinchUp;
+			CurrentPinchState = IsPinching ? EPinchState::PinchStay : EPinchState::PinchUp;
 			// If the focused interactable changes, then original is now invalid.
 			if (FirstFocusedInteractable != CurrentFocusedInteractable)
 			{

@@ -106,7 +106,8 @@ FQuat ATrainCarBase::ConstructLookRotation(const FVector& LookDirection,
 	const FVector& UpVector)
 {
 	return UKismetMathLibrary::MakeRotFromXZ(
-		LookDirection.GetSafeNormal(), UpVector.GetSafeNormal()).Quaternion();
+		LookDirection.GetSafeNormal(), UpVector.GetSafeNormal())
+		.Quaternion();
 }
 
 void ATrainCarBase::UpdateState(float DeltaTime)
@@ -115,4 +116,3 @@ void ATrainCarBase::UpdateState(float DeltaTime)
 	// this normally should be pure virtual but UE4 forbids
 	// such functions in actor classes
 }
-

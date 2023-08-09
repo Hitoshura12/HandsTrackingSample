@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "InteractableTool.h"
 #include "ColliderZone.h"
 #include "Interactable.h"
@@ -11,8 +10,7 @@ AInteractableTool::AInteractableTool()
 }
 
 /** Should be overridden. */
-void AInteractableTool::Initialize_Implementation(UOculusXRHandComponent
-	*HandComponent)
+void AInteractableTool::Initialize_Implementation(UOculusXRHandComponent* HandComponent)
 {
 }
 
@@ -67,8 +65,7 @@ FCollisionInfoKeyValuePair AInteractableTool::
 		auto CurrentInteractable = Elem.Key;
 		float CurrentDistanceSqr = FVector::DistSquared(
 			WorldPosition, CurrentInteractable->GetActorLocation());
-		if (ClosestDistanceSqr < 0.0f || CurrentDistanceSqr <
-			ClosestDistanceSqr)
+		if (ClosestDistanceSqr < 0.0f || CurrentDistanceSqr < ClosestDistanceSqr)
 		{
 			ClosestDistanceSqr = CurrentDistanceSqr;
 			FirstCollisionInfo.Interactable = Elem.Key;
@@ -126,7 +123,7 @@ void AInteractableTool::SyncLatestCollisionDataWithInteractables()
 
 	for (auto& Elem : CurrInteractableToCollisionInfos)
 	{
-		AInteractable *Key = Elem.Key;
+		AInteractable* Key = Elem.Key;
 		bool IsNewItem = !PrevInteractableToCollisionInfos.Contains(Key);
 		if (IsNewItem)
 		{
@@ -140,7 +137,7 @@ void AInteractableTool::SyncLatestCollisionDataWithInteractables()
 
 	for (auto& Elem : PrevInteractableToCollisionInfos)
 	{
-		AInteractable *Key = Elem.Key;
+		AInteractable* Key = Elem.Key;
 		bool RemovedItem = !CurrInteractableToCollisionInfos.Contains(Key);
 		if (RemovedItem)
 		{
@@ -156,8 +153,7 @@ void AInteractableTool::SyncLatestCollisionDataWithInteractables()
 			RemovedInteractable->UpdateCollisionDepth(
 				this,
 				PrevInteractableToCollisionInfos[RemovedInteractable].CollisionDepth,
-				EInteractableCollisionDepth::None
-			);
+				EInteractableCollisionDepth::None);
 		}
 	}
 
@@ -173,8 +169,7 @@ void AInteractableTool::SyncLatestCollisionDataWithInteractables()
 			AddedInteractable->UpdateCollisionDepth(
 				this,
 				EInteractableCollisionDepth::None,
-				CollisionDepth
-			);
+				CollisionDepth);
 		}
 	}
 
@@ -183,12 +178,11 @@ void AInteractableTool::SyncLatestCollisionDataWithInteractables()
 	{
 		if (IsValid(RemainingInteractable))
 		{
-			EInteractableCollisionDepth OldCollisionDepth
-				= PrevInteractableToCollisionInfos[RemainingInteractable].CollisionDepth;
+			EInteractableCollisionDepth OldCollisionDepth = PrevInteractableToCollisionInfos[RemainingInteractable].CollisionDepth;
 			FInteractableCollisionInfo NewCollisionInfo =
 				CurrInteractableToCollisionInfos[RemainingInteractable];
-			EInteractableCollisionDepth NewCollisionDepth
-				= NewCollisionInfo.CollisionDepth;;
+			EInteractableCollisionDepth NewCollisionDepth = NewCollisionInfo.CollisionDepth;
+			;
 			RemainingInteractable->UpdateCollisionDepth(this, OldCollisionDepth,
 				NewCollisionDepth);
 		}

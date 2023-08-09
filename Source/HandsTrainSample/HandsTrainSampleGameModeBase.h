@@ -13,5 +13,4 @@ UCLASS()
 class HANDSTRAINSAMPLE_API AHandsTrainSampleGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
-	
 };

@@ -16,12 +16,12 @@ enum class ESelectionState : uint8
 
 class UStaticMeshComponent;
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class HANDSTRAINSAMPLE_API USelectionCylinderHelper : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
+public:
 	USelectionCylinderHelper();
 
 	UFUNCTION(BlueprintCallable, BlueprintPure)
@@ -34,7 +34,7 @@ public:
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Meshes")
-	UStaticMeshComponent *MeshComponent;
+	UStaticMeshComponent* MeshComponent;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Meshes")
 	FColor DefaultColorBase;

@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "TrainParent.h"
 
 ATrainParent::ATrainParent()
@@ -41,7 +40,7 @@ void ATrainParent::SpawnTrainCars(ATrainTrack* ParentTrack)
 	TrainLocomotive->StartStopTrain(true);
 }
 
-void ATrainParent::SpawnTrainCar(ATrainTrack* ParentTrack, USceneComponent *AnchorComp,
+void ATrainParent::SpawnTrainCar(ATrainTrack* ParentTrack, USceneComponent* AnchorComp,
 	TSubclassOf<ANormalTrainCar> ReferenceBlueprint)
 {
 	ANormalTrainCar* NewTrainCar = GetWorld()->SpawnActor<ANormalTrainCar>(

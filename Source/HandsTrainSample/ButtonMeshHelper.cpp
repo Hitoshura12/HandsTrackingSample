@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "ButtonMeshHelper.h"
 #include "ColliderZone.h"
 #include "InteractableTool.h"
@@ -21,8 +20,7 @@ UButtonMeshHelper::UButtonMeshHelper()
 	ContactMaxDisplacementDistance = 1.365f;
 }
 
-void UButtonMeshHelper::Initialize(AInteractableButton* ParentButton, UColliderZone*
-	ButtonContact, UStaticMeshComponent* StaticMeshComponent)
+void UButtonMeshHelper::Initialize(AInteractableButton* ParentButton, UColliderZone* ButtonContact, UStaticMeshComponent* StaticMeshComponent)
 {
 	OldRelativePosition = StaticMeshComponent->GetRelativeLocation();
 
@@ -43,8 +41,7 @@ void UButtonMeshHelper::Initialize(AInteractableButton* ParentButton, UColliderZ
 void UButtonMeshHelper::InteractableStateChanged(const FInteractableStateArgs& StateArgs)
 {
 	ButtonInContactOrActionStates = false;
-	Button->ToggleButtonGlow(StateArgs.NewInteractableState >
-		EInteractableState::Default);
+	Button->ToggleButtonGlow(StateArgs.NewInteractableState > EInteractableState::Default);
 
 	switch (StateArgs.NewInteractableState)
 	{
@@ -87,7 +84,7 @@ void UButtonMeshHelper::ActionOrInContactZoneStayEvent(
 	{
 		return;
 	}
-	
+
 	/** Calculate how much the button should be pushed inwards based on the contact
 	  * zone. The collider's dimension is required for this. Another way to test
 	  * distances is to measure distance to the plane that represents where the button
@@ -108,8 +105,7 @@ void UButtonMeshHelper::ActionOrInContactZoneStayEvent(
 	{
 		MeshComponent->SetRelativeLocation(
 			FVector(OldRelativePosition.X - ButtonTravel,
-			OldRelativePosition.Y,
-			OldRelativePosition.Z));
+				OldRelativePosition.Y,
+				OldRelativePosition.Z));
 	}
 }
-

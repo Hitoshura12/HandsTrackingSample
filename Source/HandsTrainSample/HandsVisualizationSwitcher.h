@@ -46,12 +46,12 @@ UCLASS()
 class HANDSTRAINSAMPLE_API AHandsVisualizationSwitcher : public AActor
 {
 	GENERATED_BODY()
-	
+
 public:
 	AHandsVisualizationSwitcher();
 
 	virtual void Tick(float DeltaTime) override;
-	
+
 	UFUNCTION(BlueprintCallable, Category = "Visual")
 	void SwitchHandsVisualization();
 
@@ -74,10 +74,10 @@ protected:
 	class UMaterialInterface* SystemGestureBoneMaterial;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Hands")
-	UOculusXRHandComponent *LeftHand;
+	UOculusXRHandComponent* LeftHand;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Hands")
-	UOculusXRHandComponent *RightHand;
+	UOculusXRHandComponent* RightHand;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Visual")
 	EOculusXRHandsVisualMode CurrentVisualMode;
@@ -125,11 +125,11 @@ private:
 
 	void EnforceCurrentVisualMode();
 
-	void InitVisualsPerHand(UOculusXRHandComponent *Hand);
+	void InitVisualsPerHand(UOculusXRHandComponent* Hand);
 	void UpdateHandBoneVisuals(
 		UOculusXRHandComponent* Hand,
 		UInstancedStaticMeshComponent* BoneInstancedMeshes,
-		TArray<FTransform> & SegmentTransforms,
+		TArray<FTransform>& SegmentTransforms,
 		TArray<FLineSegment>& HandSegmentInfos,
 		bool bMeshVisibility, bool bConfidenceIsHigh,
 		float HandScale);

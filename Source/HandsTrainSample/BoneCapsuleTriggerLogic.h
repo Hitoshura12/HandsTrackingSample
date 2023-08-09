@@ -14,7 +14,7 @@ UCLASS()
 class HANDSTRAINSAMPLE_API ABoneCapsuleTriggerLogic : public AActor
 {
 	GENERATED_BODY()
-	
+
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Properties")
 	TSet<UColliderZone*> CollidersTouching;

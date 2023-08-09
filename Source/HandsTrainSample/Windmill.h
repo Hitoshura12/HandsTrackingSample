@@ -11,7 +11,6 @@
 class ACollidableInteractable;
 class AInteractableTool;
 
-
 UCLASS()
 class HANDSTRAINSAMPLE_API AWindmill : public AActor
 {
@@ -57,7 +56,7 @@ protected:
 	class UStaticMeshComponent* BladesMesh;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	USceneComponent *CollidableInteractAnchor;
+	USceneComponent* CollidableInteractAnchor;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float MaxBladesSpeed;

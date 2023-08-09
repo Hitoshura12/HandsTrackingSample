@@ -15,7 +15,7 @@ UCLASS()
 class HANDSTRAINSAMPLE_API AInteractableToolsManager : public AActor
 {
 	GENERATED_BODY()
-	
+
 public:
 	AInteractableToolsManager();
 
@@ -53,5 +53,4 @@ protected:
 
 private:
 	InteractableToolsInputRouter InputRouter;
-
 };

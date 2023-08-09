@@ -5,10 +5,10 @@ using System.Collections.Generic;
 
 public class HandsTrainSampleTarget : TargetRules
 {
-	public HandsTrainSampleTarget( TargetInfo Target) : base(Target)
+	public HandsTrainSampleTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Game;
 
-		ExtraModuleNames.AddRange( new string[] { "HandsTrainSample" } );
+		ExtraModuleNames.AddRange(new string[] { "HandsTrainSample" });
 	}
 }

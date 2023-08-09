@@ -34,7 +34,7 @@ public:
 
 	bool UpdateState(float PinchStrength,
 		AInteractable* CurrentFocusedInteractable, bool IsRightHanded);
-	
+
 private:
 	enum EPinchState
 	{
@@ -48,5 +48,4 @@ private:
 
 	EPinchState CurrentPinchState;
 	AInteractable* FirstFocusedInteractable;
-
 };

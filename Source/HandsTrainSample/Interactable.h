@@ -28,13 +28,12 @@ struct FColliderZoneArgs
 
 	FColliderZoneArgs(UColliderZone* Zone, int64 CollisionFrame,
 		AInteractableTool* CollidingTool, ECollisionInteractionType InteractionT)
-		: Zone(Zone), CollisionFrame(CollisionFrame), CollidingTool(CollidingTool),
-		InteractionT(InteractionT)
+		: Zone(Zone), CollisionFrame(CollisionFrame), CollidingTool(CollidingTool), InteractionT(InteractionT)
 	{
 	}
 
-	FColliderZoneArgs() : Zone(nullptr), CollisionFrame(UKismetSystemLibrary::GetFrameCount()),
-		CollidingTool(nullptr), InteractionT(ECollisionInteractionType::Enter)
+	FColliderZoneArgs()
+		: Zone(nullptr), CollisionFrame(UKismetSystemLibrary::GetFrameCount()), CollidingTool(nullptr), InteractionT(ECollisionInteractionType::Enter)
 	{
 	}
 };
@@ -60,15 +59,13 @@ struct FInteractableStateArgs
 
 	FInteractableStateArgs(AInteractable* Interactable, AInteractableTool* Tool,
 		EInteractableState OldInteractableState, EInteractableState NewInteractableState,
-		FColliderZoneArgs ColliderArgs) : Interactable(Interactable),
-		Tool(Tool), OldInteractableState(OldInteractableState),
-		NewInteractableState(NewInteractableState), ColliderArgs(ColliderArgs)
+		FColliderZoneArgs ColliderArgs)
+		: Interactable(Interactable), Tool(Tool), OldInteractableState(OldInteractableState), NewInteractableState(NewInteractableState), ColliderArgs(ColliderArgs)
 	{
 	}
 
-	FInteractableStateArgs() : Interactable(nullptr), Tool(nullptr),
-		OldInteractableState(EInteractableState::Default),
-		NewInteractableState(EInteractableState::Default)
+	FInteractableStateArgs()
+		: Interactable(nullptr), Tool(nullptr), OldInteractableState(EInteractableState::Default), NewInteractableState(EInteractableState::Default)
 	{
 	}
 };
@@ -84,7 +81,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FInteractableStateEventSignature,
  * Not meant to be used directly! It is must be inherited from.
  */
 UCLASS()
-class HANDSTRAINSAMPLE_API AInteractable : public AActor {
+class HANDSTRAINSAMPLE_API AInteractable : public AActor
+{
 	GENERATED_BODY()
 
 public:

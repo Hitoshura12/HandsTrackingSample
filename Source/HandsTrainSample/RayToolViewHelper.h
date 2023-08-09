@@ -13,7 +13,7 @@ class AInteractableTool;
  * Modifies visual state of ray tool. Not quite the same as the Unity's
  * line renderer but it works.
  */
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class HANDSTRAINSAMPLE_API URayToolViewHelper : public UActorComponent
 {
 	GENERATED_BODY()
@@ -24,7 +24,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UFUNCTION(BlueprintCallable, Category = "Initialization")
-	void Initialize(AInteractableTool *Tool, UStaticMeshComponent* NewTargetMesh,
+	void Initialize(AInteractableTool* Tool, UStaticMeshComponent* NewTargetMesh,
 		UInstancedStaticMeshComponent* NewRayMesh);
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "ViewState")

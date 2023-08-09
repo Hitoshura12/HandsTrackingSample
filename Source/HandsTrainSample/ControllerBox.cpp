@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "ControllerBox.h"
 #include "TrainLocomotive.h"
 #include "CowCar.h"
@@ -68,7 +67,7 @@ void AControllerBox::FindHandsVisualizationSwitcher()
 void AControllerBox::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 	bIsLerpingToHMD = false;
 
 	FindAnchors();
@@ -217,7 +216,7 @@ void AControllerBox::HookUpButtonEvents()
 }
 
 void AControllerBox::SmokeButtonStateChanged(const FInteractableStateArgs&
-	StateArgs)
+		StateArgs)
 {
 	if (StateArgs.NewInteractableState == EInteractableState::ActionState)
 	{
@@ -226,7 +225,7 @@ void AControllerBox::SmokeButtonStateChanged(const FInteractableStateArgs&
 }
 
 void AControllerBox::WhistleButtonStateChanged(const FInteractableStateArgs&
-	StateArgs)
+		StateArgs)
 {
 	if (StateArgs.NewInteractableState == EInteractableState::ActionState)
 	{
@@ -235,7 +234,7 @@ void AControllerBox::WhistleButtonStateChanged(const FInteractableStateArgs&
 }
 
 void AControllerBox::GoCowGo(const FInteractableStateArgs&
-	StateArgs)
+		StateArgs)
 {
 	if (StateArgs.NewInteractableState == EInteractableState::ActionState)
 	{
@@ -244,18 +243,17 @@ void AControllerBox::GoCowGo(const FInteractableStateArgs&
 }
 
 void AControllerBox::HandStyleButtonStateChanged(const FInteractableStateArgs&
-	StateArgs)
+		StateArgs)
 {
 	FindHandsVisualizationSwitcher();
-	if (StateArgs.NewInteractableState == EInteractableState::ActionState &&
-		IsValid(HandsVisSwitcher))
+	if (StateArgs.NewInteractableState == EInteractableState::ActionState && IsValid(HandsVisSwitcher))
 	{
 		HandsVisSwitcher->SwitchHandsVisualization();
 	}
 }
 
 void AControllerBox::ReverseButtonStateChanged(const FInteractableStateArgs&
-	StateArgs)
+		StateArgs)
 {
 	if (StateArgs.NewInteractableState == EInteractableState::ActionState)
 	{
@@ -264,7 +262,7 @@ void AControllerBox::ReverseButtonStateChanged(const FInteractableStateArgs&
 }
 
 void AControllerBox::SpeedUpButtonStateChanged(const FInteractableStateArgs&
-	StateArgs)
+		StateArgs)
 {
 	if (StateArgs.NewInteractableState == EInteractableState::ActionState)
 	{
@@ -273,7 +271,7 @@ void AControllerBox::SpeedUpButtonStateChanged(const FInteractableStateArgs&
 }
 
 void AControllerBox::SlowDownButtonStateChanged(const FInteractableStateArgs&
-	StateArgs)
+		StateArgs)
 {
 	if (StateArgs.NewInteractableState == EInteractableState::ActionState)
 	{
@@ -282,7 +280,7 @@ void AControllerBox::SlowDownButtonStateChanged(const FInteractableStateArgs&
 }
 
 void AControllerBox::StartStopButtonStateChanged(const FInteractableStateArgs&
-	StateArgs)
+		StateArgs)
 {
 	if (StateArgs.NewInteractableState == EInteractableState::ActionState)
 	{
@@ -360,8 +358,7 @@ void AControllerBox::Tick(float DeltaTime)
 	auto CurrentHMDPosition = GetHMDPosition();
 	float DistanceFromHMDPosToLastPos = FVector::Dist(CurrentHMDPosition,
 		LastMovedToPos);
-	float HeadMovementSpeed = FVector::Dist(CurrentHMDPosition, PrevPos) /
-		DeltaTime;
+	float HeadMovementSpeed = FVector::Dist(CurrentHMDPosition, PrevPos) / DeltaTime;
 
 	FVector CurrentLocation = GetActorLocation();
 	FVector HMDToMyLocation = CurrentLocation - CurrentHMDPosition;
@@ -375,10 +372,7 @@ void AControllerBox::Tick(float DeltaTime)
 	 * -AND-
 	 * 5) We are not lerping
 	*/
-	if (((DistanceFromHMDPosToLastPos > MaxDistanceFromHMDToLastPos) ||
-		(MinDistanceToHMD > CurrDistanceFromHMD) ||
-		(MinDepthToHMD > HMDToMyLocation.X)) &&
-		(HeadMovementSpeed < HmdMovementThreshold)
+	if (((DistanceFromHMDPosToLastPos > MaxDistanceFromHMDToLastPos) || (MinDistanceToHMD > CurrDistanceFromHMD) || (MinDepthToHMD > HMDToMyLocation.X)) && (HeadMovementSpeed < HmdMovementThreshold)
 		&& !bIsLerpingToHMD)
 	{
 		LastMovedToPos = CurrentHMDPosition;
@@ -400,15 +394,13 @@ FVector AControllerBox::GetHMDPosition()
 {
 	FRotator DeviceRotation;
 	FVector DevicePosition;
-	UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition
-		(DeviceRotation, DevicePosition);
-	APawn * PlayerPawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
-	if (!IsValid(PlayerPawn)) {
+	UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(DeviceRotation, DevicePosition);
+	APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+	if (!IsValid(PlayerPawn))
+	{
 		return FVector::ZeroVector;
 	}
 	FTransform PlayerTransform = PlayerPawn->GetTransform();
 	FVector TransformedPos = PlayerTransform.TransformPosition(DevicePosition);
 	return TransformedPos;
 }
-
-

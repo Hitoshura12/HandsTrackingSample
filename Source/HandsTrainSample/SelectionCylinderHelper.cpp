@@ -59,14 +59,12 @@ void USelectionCylinderHelper::AffectSelectionColor(bool bIsSelectedState)
 			if (DynamicMaterial->GetName().Contains(BaseMaterialName.ToString()))
 			{
 				DynamicMaterial->SetVectorParameterValue(
-					TintParamName, bIsSelectedState ? FVector(DefaultColorBase) :
-					FVector(HighlightColorBase));
+					TintParamName, bIsSelectedState ? FVector(DefaultColorBase) : FVector(HighlightColorBase));
 			}
 			else
 			{
 				DynamicMaterial->SetVectorParameterValue(
-					TintParamName, bIsSelectedState ? FVector(DefaultColor) :
-					FVector(HighlightColor));
+					TintParamName, bIsSelectedState ? FVector(DefaultColor) : FVector(HighlightColor));
 			}
 		}
 	}

@@ -62,8 +62,7 @@ void AWindmill::InteractableStateChanged(const FInteractableStateArgs& StateArgs
 		NewMoveState(!IsMoving);
 	}
 
-	ToolInteractingWithMe = StateArgs.NewInteractableState > EInteractableState::Default ?
-		StateArgs.Tool : nullptr;
+	ToolInteractingWithMe = StateArgs.NewInteractableState > EInteractableState::Default ? StateArgs.Tool : nullptr;
 }
 
 void AWindmill::Tick(float DeltaTime)
@@ -80,8 +79,8 @@ void AWindmill::Tick(float DeltaTime)
 	else
 	{
 		SelectionCylinderHelper->SetSelectionState(
-			(ToolInteractingWithMe->GetCurrInputState() == EToolInputState::PrimaryInputDown ||
-			ToolInteractingWithMe->GetCurrInputState() == EToolInputState::PrimaryInputDownStay)
-			? ESelectionState::Highlighted : ESelectionState::Selected);
+			(ToolInteractingWithMe->GetCurrInputState() == EToolInputState::PrimaryInputDown || ToolInteractingWithMe->GetCurrInputState() == EToolInputState::PrimaryInputDownStay)
+				? ESelectionState::Highlighted
+				: ESelectionState::Selected);
 	}
 }

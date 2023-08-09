@@ -18,14 +18,14 @@ class AHandsVisualizationSwitcher;
  * via "File->Import Into Level..." because the scene graph of
  * ControllerBox.fbx must be respected (especially in relation to
  * button placement. The resulting blueprint created from the import
- * process was modified to accomodate this class.
+ * process was modified to accommodate this class.
  */
 UCLASS()
 class HANDSTRAINSAMPLE_API AControllerBox : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	AControllerBox();
 
 	virtual void Tick(float DeltaTime) override;
@@ -61,52 +61,52 @@ protected:
 	TSubclassOf<AInteractableButton> InteractableButtonBP;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Button Placement")
-	USceneComponent *SmokeButtonAnchorComp;
+	USceneComponent* SmokeButtonAnchorComp;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Button Placement")
-	USceneComponent *WhistleButtonAnchorComp;
+	USceneComponent* WhistleButtonAnchorComp;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Button Placement")
-	USceneComponent *MooCowButtonAnchorComp;
+	USceneComponent* MooCowButtonAnchorComp;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Button Placement")
-	USceneComponent *HandStyleButtonAnchorComp;
+	USceneComponent* HandStyleButtonAnchorComp;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Button Placement")
-	USceneComponent *ReverseButtonAnchorComp;
+	USceneComponent* ReverseButtonAnchorComp;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Button Placement")
-	USceneComponent *SpeedUpButtonAnchorComp;
+	USceneComponent* SpeedUpButtonAnchorComp;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Button Placement")
-	USceneComponent *SlowDownButtonAnchorComp;
+	USceneComponent* SlowDownButtonAnchorComp;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Button Placement")
-	USceneComponent *StartStopButtonAnchorComp;
+	USceneComponent* StartStopButtonAnchorComp;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Button Placement")
-	AInteractableButton *SmokeButtonActor;
+	AInteractableButton* SmokeButtonActor;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Button Placement")
-	AInteractableButton *WhistleButtonActor;
+	AInteractableButton* WhistleButtonActor;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Button Placement")
-	AInteractableButton *MooCowButtonActor;
+	AInteractableButton* MooCowButtonActor;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Button Placement")
-	AInteractableButton *HandStyleButtonActor;
+	AInteractableButton* HandStyleButtonActor;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Button Placement")
-	AInteractableButton *ReverseButtonActor;
+	AInteractableButton* ReverseButtonActor;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Button Placement")
-	AInteractableButton *SpeedUpButtonActor;
+	AInteractableButton* SpeedUpButtonActor;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Button Placement")
-	AInteractableButton *SlowDownButtonActor;
+	AInteractableButton* SlowDownButtonActor;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Button Placement")
-	AInteractableButton *StartStopButtonActor;
+	AInteractableButton* StartStopButtonActor;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Distances")
 	float MaxDistanceFromHMDToLastPos;
@@ -136,7 +136,7 @@ protected:
 	ACowCar* CowCar;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	AHandsVisualizationSwitcher *HandsVisSwitcher;
+	AHandsVisualizationSwitcher* HandsVisSwitcher;
 
 	UFUNCTION(BlueprintCallable)
 	void FindLocomotive();

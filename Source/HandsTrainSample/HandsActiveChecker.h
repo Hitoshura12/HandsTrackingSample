@@ -12,8 +12,8 @@ UCLASS()
 class HANDSTRAINSAMPLE_API AHandsActiveChecker : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	AHandsActiveChecker();
 
 	virtual void Tick(float DeltaTime) override;
@@ -31,7 +31,7 @@ protected:
 	APawn* PlayerPawn;
 
 	UPROPERTY()
-	UStaticMeshComponent *LeftMesh;
+	UStaticMeshComponent* LeftMesh;
 
 	UPROPERTY()
 	UStaticMeshComponent* RightMesh;

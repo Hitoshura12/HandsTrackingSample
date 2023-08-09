@@ -16,7 +16,7 @@ UCLASS()
 class HANDSTRAINSAMPLE_API ATrainCarBase : public AActor
 {
 	GENERATED_BODY()
-	
+
 public:
 	ATrainCarBase();
 
